@@ -1,0 +1,53 @@
+{% extends "base.html" %} {% block content %}
+<!-- show searching -->
+<section id="showSearching">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="p-4 bg-white">
+          <h4>Find by name</h4>
+          <form method="post" id="searchForm">
+            {% csrf_token %} {{search_form.search}}
+          </form>
+        </div>
+      </div>
+      <div class="col-md-6"></div>
+      {% for individual in individuals %}
+      <!-- single rating -->
+      <div class="col-10 mx-auto my-3 col-md-6 col-lg-4">
+        <div class="singleRating bg-white mt-4">
+          <div class="imgContainer">
+            <a href="{{individual.id}}">
+              <img src="media/{{individual.image}}" alt="..." width="100%" />
+            </a>
+          </div>
+          {% if individual.rating == 0 %}
+          <div class="text-center p-2">No ratings yet</div>
+          <br />
+          {% else %}
+          <div class="text-center p-2">
+            <div class="star"></div>
+          </div>
+          {% endif %}
+          <div class="p-2">
+            <div>{{individual.name}}</div>
+            <div>{{individual.description}}</div>
+          </div>
+        </div>
+      </div>
+      <!-- end of single rating -->
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<!-- end of show searching -->
+
+<script>
+  // submit form search by enter key
+  searchForm.onkeypress = function (e) {
+    if (e.which === 13) {
+      searchForm.submit();
+    }
+  };
+</script>
+{% endblock content %}

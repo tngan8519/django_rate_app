@@ -1,0 +1,10 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="col-10 col-md-4 mx-auto pt-5">
+  <h1>{{ title }}</h1>
+  {% if description %}
+  <p>{{ description }}</p>
+  {% endif %} {% include "components/form.html" %}
+</div>
+
+{% endblock content %}

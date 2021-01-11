@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %}
+<div class="row">
+  <div
+    class="col-9 col-sm-6 col-md-7 col-lg-6 mx-auto text-capitalize formdesign"
+  >
+    <h4 class="text-center">create new individual</h4>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="inputdesign">
+        <label for="">name</label>
+        {{form.name}}
+      </div>
+      <div class="inputdesign">
+        <label for="">file</label>
+        {{form.image}}
+      </div>
+      <div class="inputdesign">
+        <label for="">description</label>
+        {{form.description}}
+      </div>
+      <button type="submit" class="buttondesign">Submit</button>
+    </form>
+  </div>
+</div>
+<!-- end of form -->
+{% endblock content %}

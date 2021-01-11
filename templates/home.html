@@ -1,0 +1,55 @@
+{% extends "base.html" %} {% block content %}
+<!-- quickly search -->
+<section
+  id="quicklySearch"
+  class="d-flex justify-content-center align-items-center text-center"
+>
+  <div>
+    <div class="text-uppercase text-white word">quickly search</div>
+
+    <div class="searching d-flex">
+      <input disabled type="text" name="q" />
+
+      <div class="d-flex justify-content-center align-items-center">
+        <button><i class="fas fa-search"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end of quickly search -->
+<!-- about us -->
+<section id="aboutus">
+  <div class="container">
+    <div class="introduce">
+      <div class="text-capitalize about">about us</div>
+      <!-- content -->
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center order-md-2 py-3">
+          <div class="px-3">
+            We build a functioning human reputation score webpage
+          </div>
+        </div>
+        <div class="col-md-6 py-3 order-md-1 text-center star">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+          <i class="far fa-star"></i>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center order-md-3 py-3">
+          <div class="px-3">
+            We help to find the person you are dealing with
+          </div>
+        </div>
+        <div class="col-md-6 py-3 order-md-4 text-center">
+          <i class="fas fa-american-sign-language-interpreting big"></i>
+        </div>
+      </div>
+      <!-- end of content -->
+    </div>
+  </div>
+</section>
+<!-- end of about us -->
+{% endblock content %}

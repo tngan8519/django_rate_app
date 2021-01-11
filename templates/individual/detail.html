@@ -1,0 +1,180 @@
+{% extends "base.html" %} {% block content %}
+<!-- detail -->
+<section id="detail">
+  <div class="container py-4">
+    <div class="row top">
+      <div class="col-md-8 p-0">
+        <div class="row">
+          <div class="mr-3">
+            <img
+              src="../media/{{individual.image}}"
+              alt="..."
+              width="100%"
+              id="hinh"
+            />
+            {% if request.user.is_authenticated and request.user.isAdmin %}
+            <div class="d-flex" id="add">
+              <a href="/individual/{{individual.id}}/edit">Edit</a>
+              <form method="post">
+                <button>Delete</button>
+              </form>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="row">
+          {% with total=rating.count %}
+          <div class="mr-3 bg-white">
+            {% if total != 0 %} {% for rate in rating %}
+            <!-- each rating -->
+            <hr />
+            <div class="row">
+              <div class="col-4">
+                <img
+                  src="https://cdn.pixabay.com/photo/2020/12/20/04/06/bear-5846065_1280.jpg"
+                  alt="avatar"
+                  width="20%"
+                />
+                <div>Rate by {{rate.author.username }}</div>
+                <div><em>{{rate.created }}</em></div>
+                <div>{{rate.rating }} out of 5</div>
+              </div>
+              <div class="col-8">
+                <div>{{rate.text}}</div>
+                {% if request.user.username == rate.author.username %}
+                <div class="d-flex justify-content-end" id="adjustRate">
+                  <div class="editBtn">
+                    <a href="#" data-id="{{ forloop.counter0 }}">edit</a>
+                  </div>
+                  <div>
+                    <form
+                      action="/individual/{{individual.id}}/rate/{{rate.id}}/delete"
+                      method="post"
+                    >
+                      {% csrf_token %}
+                      <button type="submit">delete</button>
+                    </form>
+                  </div>
+                </div>
+                {% endif %}
+                <div class="afterCliked">
+                  <div class="parentTextarea">
+                    <form
+                      action="/individual/{{individual.id}}/rate/{{rate.id}}/edit"
+                      method="post"
+                    >
+                      {% csrf_token %}
+                      <div class="rating">
+                        {% for choice in rating_form.rating.field.choices %}
+                        <label
+                          >☆
+                          <input
+                            type="radio"
+                            name="rating"
+                            value="{{choice.0}}"
+                          />
+                        </label>
+                        {% endfor %}
+                      </div>
+                      {{rating_form.text}}
+                      <button type="submit" class="buttondesign">submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end of each rating -->
+            {% endfor %} {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="my-4 my-sm-0 px-2 py-3 bg-white">
+          <div>{{individual.name}}</div>
+          <hr />
+          <div>{{individual.description}}</div>
+          <hr />
+          {% if total == 0 %}
+          <div>No rates yet</div>
+          {% else %}
+          <div>{{total}} rating(s)</div>
+          <div class="star">
+            {% for i in "x"|rjust:floor %}
+            <i class="fas fa-star"></i>
+            {% endfor %} {% if odd %}
+            <i class="fas fa-star-half-alt"></i>
+            {% endif %} {% for i in "x"|rjust:minusceil %}
+            <i class="far fa-star"></i>
+            {% endfor %}
+            <span class="text-dark">{{avg}} of out 5</span>
+          </div>
+          {% endif %}
+
+          <hr />
+
+          {% if alreadyRate %}
+          <div
+            id="rateBtn"
+            class="rate text-center p-2 mb-2"
+            style="pointer-events: none; opacity: 0.4"
+          >
+            Rate
+          </div>
+          <div>You has already rated.</div>
+          {% else %}
+          <div id="rateBtn" class="rate text-center p-2 mb-2">Rate</div>
+          {% endif %}
+          <div id="clicked">
+            {% if not request.user.is_authenticated %}
+            <div>
+              You have to login to rate. Click <a href="/login">here</a> to
+              login
+            </div>
+            {% else %}
+            <div class="parentTextarea">
+              <form method="post">
+                {% csrf_token %}
+                <div class="rating">
+                  {% for choice in rating_form.rating.field.choices %}
+                  <label
+                    >☆
+                    <input type="radio" name="rating" value="{{choice.0}}" />
+                  </label>
+                  {% endfor %}
+                </div>
+
+                {{rating_form.text}}
+                <button type="submit" class="buttondesign">submit</button>
+              </form>
+            </div>
+            {% endif %} {% endwith %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- end of detail -->
+
+<!-- end of detail -->
+<script>
+  var rateBtn = document.getElementById("rateBtn");
+  var clicked = document.getElementById("clicked");
+  var editBtn = document.getElementsByClassName("editBtn");
+  var afterCliked = document.getElementsByClassName("afterCliked");
+  // slide down new rating
+  rateBtn.addEventListener("click", function () {
+    clicked.style.opacity = "1";
+  });
+  console.log(afterCliked);
+  // slide down edit rating
+  for (var i = 0; i < editBtn.length; i++) {
+    editBtn[i].addEventListener("click", function (e) {
+      e.preventDefault();
+      var count = e.target.dataset.id;
+      afterCliked[count].style.height = "100%";
+    });
+  }
+</script>
+{% endblock content %}
